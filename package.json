@@ -1,0 +1,69 @@
+{
+  "name": "strict-typed-events",
+  "description": "Type safe and promise supported replacement for node's EventEmitter",
+  "version": "1.0.1",
+  "author": "Panates",
+  "contributors": [
+    "Eray Hanoglu <e.hanoglu@panates.com>"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/panates/strict-typed-events.git"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "javascript",
+    "type-safe",
+    "typescript",
+    "EventEmitter",
+    "events",
+    "async",
+    "await",
+    "promise"
+  ],
+  "peerDependencies": {},
+  "dependencies": {
+    "putil-promisify": "^1.8.5"
+  },
+  "devDependencies": {
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.4.7",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.31.0",
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^9.0.3",
+    "nyc": "^15.1.0",
+    "ts-cleanup": "^0.2.4",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
+  },
+  "engines": {
+    "node": ">=10.0"
+  },
+  "directories": {
+    "lib": "./dist"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/"
+  ],
+  "nyc": {
+    "temp-dir": "./coverage/.nyc_output"
+  },
+  "scripts": {
+    "clean": "npm run clean:src && npm run clean:test && npm run clean:dist",
+    "clean:dist": "ts-cleanup -d dist --remove-dirs --all",
+    "clean:src": "ts-cleanup -s src --all",
+    "build": "npm run clean:dist | tsc -b tsconfig-build.json",
+    "compile": "tsc -b tsconfig.json",
+    "test": "TS_NODE_PROJECT='./test/tsconfig.json' mocha -r ts-node/register -r tsconfig-paths/register --reporter spec test/**/*.spec.ts",
+    "cover": "nyc --reporter=cobertura --reporter html --reporter text npm run test",
+    "travis-cover": "nyc --reporter lcovonly npm run test"
+  }
+}
