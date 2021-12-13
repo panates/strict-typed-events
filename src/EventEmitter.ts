@@ -1,7 +1,7 @@
 import events from 'events';
 import {EventsRecord, KeysOf} from './types';
 
-export class EventEmitter<TEventRecord extends EventsRecord<TEventRecord>> extends events.EventEmitter {
+export class EventEmitter<TEventRecord extends EventsRecord<any>> extends events.EventEmitter {
 
     addListener<K extends KeysOf<TEventRecord>>(eventName: K, listener: TEventRecord[K]): this {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises

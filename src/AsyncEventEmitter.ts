@@ -2,7 +2,7 @@ import promisify from 'putil-promisify';
 import {EventEmitter} from './EventEmitter';
 import {EventsRecord, KeysOf} from './types';
 
-export class AsyncEventEmitter<TEventRecord extends EventsRecord<TEventRecord>> extends EventEmitter<TEventRecord> {
+export class AsyncEventEmitter<TEventRecord extends EventsRecord<any>> extends EventEmitter<TEventRecord> {
 
     // @ts-ignore
     emit<K extends KeysOf<TEventRecord>>(
