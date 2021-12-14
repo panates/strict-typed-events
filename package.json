@@ -25,7 +25,8 @@
   ],
   "peerDependencies": {},
   "dependencies": {
-    "putil-promisify": "^1.8.5"
+    "putil-promisify": "^1.8.5",
+    "ts-gems": "^0.0.3"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",

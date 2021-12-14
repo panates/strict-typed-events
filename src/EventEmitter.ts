@@ -1,66 +1,58 @@
 import events from 'events';
-import {EventsRecord, KeysOf} from './types';
+import {IfListener, Listener, ListenerKeys} from './types';
 
-export class EventEmitter<TEventRecord extends EventsRecord<any>> extends events.EventEmitter {
+export class EventEmitter<TEventRecord extends {}> extends events.EventEmitter {
 
-    addListener<K extends KeysOf<TEventRecord>>(eventName: K, listener: TEventRecord[K]): this {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        return super.addListener(eventName, listener);
+    addListener<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.addListener(eventName, listener as unknown as Listener);
     }
 
-    on<K extends KeysOf<TEventRecord>>(eventName: K, listener: TEventRecord[K]): this {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        return super.on(eventName, listener);
+    on<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.on(eventName, listener as unknown as Listener);
     }
 
-    once<K extends KeysOf<TEventRecord>>(eventName: K, listener: TEventRecord[K]): this {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        return super.once(eventName, listener);
+    once<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.once(eventName, listener as unknown as Listener);
     }
 
-    removeListener<K extends KeysOf<TEventRecord>>(eventName: K, listener: TEventRecord[K]): this {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        return super.removeListener(eventName, listener);
+    removeListener<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.removeListener(eventName, listener as unknown as Listener);
     }
 
-    off<K extends KeysOf<TEventRecord>>(eventName: K, listener: TEventRecord[K]): this {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        return super.off(eventName, listener);
+    off<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.off(eventName, listener as unknown as Listener);
     }
 
-    removeAllListeners<K extends KeysOf<TEventRecord>>(eventName: K): this {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    removeAllListeners<K extends ListenerKeys<TEventRecord>>(eventName: K): this {
         return super.removeAllListeners(eventName);
     }
 
-    listeners<K extends KeysOf<TEventRecord>>(eventName: K): TEventRecord[K][] {
+    listeners<K extends ListenerKeys<TEventRecord>>(eventName: K): IfListener<TEventRecord[K]>[] {
         return super.listeners(eventName) as any;
     }
 
-    rawListeners<K extends KeysOf<TEventRecord>>(eventName: K): TEventRecord[K][] {
+    rawListeners<K extends ListenerKeys<TEventRecord>>(eventName: K): IfListener<TEventRecord[K]>[] {
         return super.rawListeners(eventName) as any;
     }
 
-    // @ts-ignore
-    emit<K extends KeysOf<TEventRecord>>(event: K, ...args: Parameters<TEventRecord[K]>): boolean {
-        super.emit(event, ...args);
+    emit<K extends ListenerKeys<TEventRecord>>(event: K,
+                                               ...args: Parameters<TEventRecord[K] extends Listener ? TEventRecord[K] : never>): boolean {
+        return super.emit(event, ...args);
     }
 
-    listenerCount<K extends KeysOf<TEventRecord>>(eventName: K): number {
+    listenerCount<K extends ListenerKeys<TEventRecord>>(eventName: K): number {
         return super.listenerCount(eventName);
     }
 
-    prependListener<K extends KeysOf<TEventRecord>>(eventName: K, listener: TEventRecord[K]): this {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        return super.prependListener(eventName, listener);
+    prependListener<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.prependListener(eventName, listener as unknown as Listener);
     }
 
-    prependOnceListener<K extends KeysOf<TEventRecord>>(eventName: K, listener: TEventRecord[K]): this {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        return super.prependOnceListener(eventName, listener);
+    prependOnceListener<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.prependOnceListener(eventName, listener as unknown as Listener);
     }
 
-    eventNames<K extends KeysOf<TEventRecord>>(): K[] {
+    eventNames<K extends ListenerKeys<TEventRecord>>(): K[] {
         return super.eventNames() as K[];
     }
 

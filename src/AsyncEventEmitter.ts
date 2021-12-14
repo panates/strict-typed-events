@@ -1,15 +1,15 @@
 import promisify from 'putil-promisify';
 import {EventEmitter} from './EventEmitter';
-import {EventsRecord, KeysOf} from './types';
+import {IfListener, ListenerKeys} from './types';
 
-export class AsyncEventEmitter<TEventRecord extends EventsRecord<any>> extends EventEmitter<TEventRecord> {
+export class AsyncEventEmitter<TEventRecord> extends EventEmitter<TEventRecord> {
 
     // @ts-ignore
-    emit<K extends KeysOf<TEventRecord>>(
+    emit<K extends ListenerKeys<TEventRecord>>(
         event: K | {
             event: K,
             serial?: boolean;
-        }, ...args: Parameters<TEventRecord[K]>
+        }, ...args: Parameters<IfListener<TEventRecord[K]>>
     ): boolean {
         const eventName = typeof event === 'object' ? event.event : event;
         if (!this.listenerCount(eventName))
@@ -19,11 +19,11 @@ export class AsyncEventEmitter<TEventRecord extends EventsRecord<any>> extends E
     }
 
     // @ts-ignore
-    async emitAsync<K extends KeysOf<TEventRecord>>(
+    async emitAsync<K extends ListenerKeys<TEventRecord>>(
         event: K | {
             event: K,
             serial?: boolean;
-        }, ...args: Parameters<TEventRecord[K]>
+        }, ...args: Parameters<IfListener<TEventRecord[K]>>
     ): Promise<boolean> {
         let eventName: K;
         let serial: boolean = false;
