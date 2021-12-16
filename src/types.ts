@@ -1,11 +1,5 @@
-import {IsUndefined} from 'ts-gems/lib/type-check';
+import {TypeKeys} from 'ts-gems';
 
-export type Listener = (...args: any[]) => void | Promise<void>;
-
-type _ListenerKeys<T> = {
-    [K in keyof T]-?: IsUndefined<T[K]> extends false ?
-        T[K] extends Listener ? K : never : never;
-}[keyof T];
-
-export type IfListener<T> = T extends Listener ? T: never;
-export type ListenerKeys<T> = Extract<_ListenerKeys<T>, string | symbol>;
+export declare type Listener = (...args: any[]) => void | Promise<void>;
+export declare type IfListener<T> = ([T] extends [Listener] ? T : () => void);
+export declare type ListenerKeys<T> = Extract<TypeKeys<T, Listener>, string | symbol>;
