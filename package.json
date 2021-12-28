@@ -26,11 +26,11 @@
   "peerDependencies": {},
   "dependencies": {
     "putil-promisify": "^1.8.5",
-    "ts-gems": "^0.0.3"
+    "ts-gems": "^1.0.0"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.11.12",
+    "@types/node": "^17.0.5",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "babel-eslint": "^10.1.0",

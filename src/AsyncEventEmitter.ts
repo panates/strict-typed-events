@@ -1,11 +1,10 @@
 import promisify from 'putil-promisify';
 import {EventEmitter} from './EventEmitter';
-import {IfListener, ListenerKeys} from './types';
+import {EventRecord, IfListener} from './types';
 
-export class AsyncEventEmitter<TEventRecord> extends EventEmitter<TEventRecord> {
+export class AsyncEventEmitter<TEventRecord extends EventRecord> extends EventEmitter<TEventRecord> {
 
-    // @ts-ignore
-    emit<K extends ListenerKeys<TEventRecord>>(
+    emit<K extends keyof TEventRecord>(
         event: K | {
             event: K,
             serial?: boolean;
@@ -18,8 +17,7 @@ export class AsyncEventEmitter<TEventRecord> extends EventEmitter<TEventRecord> 
         return true;
     }
 
-    // @ts-ignore
-    async emitAsync<K extends ListenerKeys<TEventRecord>>(
+    async emitAsync<K extends keyof TEventRecord>(
         event: K | {
             event: K,
             serial?: boolean;

@@ -1,58 +1,64 @@
 import events from 'events';
-import {IfListener, Listener, ListenerKeys} from './types';
+import {EventRecord, IfListener, Listener} from './types';
 
-export class EventEmitter<TEventRecord extends {}> extends events.EventEmitter {
+export class EventEmitter<TEventRecord extends EventRecord> extends events.EventEmitter {
 
-    addListener<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
-        return super.addListener(eventName, listener);
+    addListener<K extends keyof TEventRecord>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        super.addListener(wrapEventName(eventName), listener);
+        return this;
     }
 
-    on<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
-        return super.on(eventName, listener);
+    on<K extends keyof TEventRecord>(
+        eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.on(wrapEventName(eventName), listener);
     }
 
-    once<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
-        return super.once(eventName, listener);
+    once<K extends keyof TEventRecord>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.once(wrapEventName(eventName), listener);
     }
 
-    removeListener<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
-        return super.removeListener(eventName, listener);
+    removeListener<K extends keyof TEventRecord>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.removeListener(wrapEventName(eventName), listener);
     }
 
-    off<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
-        return super.off(eventName, listener);
+    off<K extends keyof TEventRecord>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.off(wrapEventName(eventName), listener);
     }
 
-    removeAllListeners<K extends ListenerKeys<TEventRecord>>(eventName: K): this {
-        return super.removeAllListeners(eventName);
+    removeAllListeners<K extends keyof TEventRecord>(eventName?: K): this {
+        return super.removeAllListeners(eventName ? wrapEventName(eventName) : undefined);
     }
 
-    listeners<K extends ListenerKeys<TEventRecord>>(eventName: K): IfListener<TEventRecord[K]>[] {
-        return super.listeners(eventName) as any;
+    listeners<K extends keyof TEventRecord>(eventName: K): IfListener<TEventRecord[K]>[] {
+        return super.listeners(wrapEventName(eventName)) as any;
     }
 
-    rawListeners<K extends ListenerKeys<TEventRecord>>(eventName: K): IfListener<TEventRecord[K]>[] {
-        return super.rawListeners(eventName) as any;
+    rawListeners<K extends keyof TEventRecord>(eventName: K): IfListener<TEventRecord[K]>[] {
+        return super.rawListeners(wrapEventName(eventName)) as any;
     }
 
-    emit<K extends ListenerKeys<TEventRecord>>(event: K, ...args: Parameters<TEventRecord[K] extends Listener ? TEventRecord[K] : never>): boolean {
-        return super.emit(event, ...args);
+    emit<K extends keyof TEventRecord>(eventName: K, ...args: Parameters<TEventRecord[K] extends Listener ? TEventRecord[K] : never>): boolean {
+        return super.emit(wrapEventName(eventName), ...args);
     }
 
-    listenerCount<K extends ListenerKeys<TEventRecord>>(eventName: K): number {
-        return super.listenerCount(eventName);
+    listenerCount<K extends keyof TEventRecord>(eventName: K): number {
+        return super.listenerCount(wrapEventName(eventName));
     }
 
-    prependListener<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
-        return super.prependListener(eventName, listener);
+    prependListener<K extends keyof TEventRecord>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.prependListener(wrapEventName(eventName), listener);
     }
 
-    prependOnceListener<K extends ListenerKeys<TEventRecord>>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
-        return super.prependOnceListener(eventName, listener);
+    prependOnceListener<K extends keyof TEventRecord>(eventName: K, listener: IfListener<TEventRecord[K]>): this {
+        return super.prependOnceListener(wrapEventName(eventName), listener);
     }
 
-    eventNames<K extends ListenerKeys<TEventRecord>>(): K[] {
+    eventNames<K extends keyof TEventRecord>(): K[] {
         return super.eventNames() as K[];
     }
 
+}
+
+function wrapEventName(n: string | number | symbol): string | symbol {
+    return typeof n === 'number' ? '' + n : n;
 }
