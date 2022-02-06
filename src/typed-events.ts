@@ -41,6 +41,18 @@ type _EventEmitterOverride<TEmitter,
     TEventRecordKeys extends keyof TEventRecord = Extract<keyof TEventRecord, FunctionKeys<TEventRecord>>,
     TEmitRecordKeys extends keyof TEmitRecord = Extract<keyof TEmitRecord, FunctionKeys<TEmitRecord>>> = {
 
+    addListener<P extends TEventRecordKeys, TThis>(
+        this: TThis, event: P,
+        listener: Listener<_ListenerParameters<TEventRecord[P]>>
+    ): TThis;
+    addListener(event: typeof _assignmentCompatibilityHack, listener: Listener): void;
+
+    addEventListener<P extends TEventRecordKeys, TThis>(
+        this: TThis, event: P,
+        listener: Listener<_ListenerParameters<TEventRecord[P]>>
+    ): TThis;
+    addEventListener(event: typeof _assignmentCompatibilityHack, listener: Listener): void;
+
     emit<P extends TEmitRecordKeys, TThis>(
         this: TThis, event: P, ...args: _ListenerParameters<TEmitRecord[P]>
     ): boolean;
@@ -55,18 +67,6 @@ type _EventEmitterOverride<TEmitter,
         this: TThis, event: P, ...args: _ListenerParameters<TEmitRecord[P]>
     ): Promise<boolean>;
     emitAsyncSerial(event: typeof _assignmentCompatibilityHack, ...args: any[]): Promise<void>;
-
-    addListener<P extends TEventRecordKeys, TThis>(
-        this: TThis, event: P,
-        listener: Listener<_ListenerParameters<TEventRecord[P]>>
-    ): TThis;
-    addListener(event: typeof _assignmentCompatibilityHack, listener: Listener): void;
-
-    addEventListener<P extends TEventRecordKeys, TThis>(
-        this: TThis, event: P,
-        listener: Listener<_ListenerParameters<TEventRecord[P]>>
-    ): TThis;
-    addEventListener(event: typeof _assignmentCompatibilityHack, listener: Listener): void;
 
     on<P extends TEventRecordKeys, TThis>(
         this: TThis, event: P, listener: Listener<_ListenerParameters<TEventRecord[P]>>
@@ -96,6 +96,8 @@ type _EventEmitterOverride<TEmitter,
     prependOnceListener<TThis>(this: TThis, event: TEventRecordKeys, listener: Listener): TThis;
     prependOnceListener(event: typeof _assignmentCompatibilityHack, listener: Listener): void;
 
+    eventNames(): string[];
+
     listeners<P extends TEventRecordKeys>(event: P): TEventRecord[P][];
     listeners(event: typeof _assignmentCompatibilityHack): void;
 
@@ -104,5 +106,9 @@ type _EventEmitterOverride<TEmitter,
 
     listenerCount(event: TEventRecordKeys): number;
     listenerCount(event: typeof _assignmentCompatibilityHack): void;
+
+    getMaxListeners(): number;
+
+    setMaxListeners<TThis>(this: TThis, n: number): TThis;
 
 };
