@@ -1,3 +1,3 @@
-export * from './async-event-emitter';
-export * from './typed-events';
-export {Class, Type} from 'ts-gems';
+export { Class, Type } from 'ts-gems';
+export * from './async-event-emitter.js';
+export * from './typed-events.js';

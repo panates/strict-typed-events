@@ -3,7 +3,9 @@
   "compilerOptions": {
     "sourceMap": false,
     "noEmit": false,
-    "outDir": "dist",
-    "rootDir": "src"
+    "declaration": false,
+    "outDir": "cjs",
+    "module": "CommonJS",
+    "moduleResolution": "node"
   }
 }
