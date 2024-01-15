@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "putil-promisify": "^1.10.1",
-    "ts-gems": "^2.4.1"
+    "ts-gems": "^3.1.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.9",
