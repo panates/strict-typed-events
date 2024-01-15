@@ -14,14 +14,7 @@
   "type": "module",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
-  "keywords": [
-    "type-safe",
-    "typescript",
-    "EventEmitter",
-    "events",
-    "emitter"
-  ],
+  "types": "./typings/index.d.ts",
   "dependencies": {
     "putil-promisify": "^1.10.1",
     "ts-gems": "^3.1.0"
@@ -47,15 +40,6 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   },
-  "engines": {
-    "node": ">=16.0"
-  },
-  "files": [
-    "cjs/",
-    "esm/",
-    "LICENSE",
-    "README.md"
-  ],
   "scripts": {
     "compile": "tsc -b tsconfig.json",
     "lint": "eslint --no-error-on-unmatched-pattern",
@@ -64,13 +48,32 @@
     "clean:src": "ts-cleanup -s src --all | ts-cleanup -s test",
     "prebuild": "npm run clean:dist && npm run lint",
     "build": "npm run build:cjs && npm run build:esm",
-    "build:cjs": "tsc -b tsconfig.build-cjs.json",
-    "build:esm": "tsc -b tsconfig.build-esm.json",
-    "postbuild": "cp package.cjs.json ./cjs/package.json",
+    "build:cjs": "tsc -b tsconfig-build-cjs.json",
+    "build:esm": "tsc -b tsconfig-build-esm.json",
+    "postbuild": "npm run postbuild:copyfiles && node ./support/postbuild.cjs",
+    "postbuild:copyfiles": "cp ./support/package.cjs.json ./build/cjs/package.json && cp LICENSE README.md ./build",
     "test": "jest",
     "precover": "rimraf coverage",
     "cover": "jest --coverage",
     "precitest": "rimraf coverage",
     "citest": "jest --coverage --coverageReporters=lcov"
-  }
+  },
+  "engines": {
+    "node": ">=16.0"
+  },
+  "files": [
+    "cjs/",
+    "esm/",
+    "typings/",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "type-safe",
+    "typescript",
+    "EventEmitter",
+    "events",
+    "emitter"
+  ]
 }
