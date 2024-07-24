@@ -1,7 +1,7 @@
 {
   "name": "strict-typed-events",
   "description": "Type safe and promise supported replacement for node's EventEmitter",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "author": "Panates",
   "contributors": [
     "Eray Hanoglu <e.hanoglu@panates.com>"
