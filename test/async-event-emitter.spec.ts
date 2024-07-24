@@ -1,16 +1,14 @@
 import { AsyncEventEmitter } from '../src/index.js';
 
-describe("AsyncEventEmitter", function () {
-
-  it("should emitAsyncSerial() emit async listeners parallel", async function () {
+describe('AsyncEventEmitter', () => {
+  it('should emitAsyncSerial() emit async listeners parallel', async () => {
     const emitter = new AsyncEventEmitter();
     const t: number[] = [];
-    const listener = async () => {
-      return new Promise<void>(resolve => {
+    const listener = async () =>
+      new Promise<void>(resolve => {
         t.push(Date.now());
         setTimeout(resolve, 50);
       });
-    }
     emitter.on('event1', listener);
     emitter.on('event1', listener);
     emitter.on('event1', listener);
@@ -19,15 +17,14 @@ describe("AsyncEventEmitter", function () {
     expect(t[2] - t[1]).toBeLessThanOrEqual(5);
   });
 
-  it("should emitAsyncSerial() emit async listeners one by one", async function () {
+  it('should emitAsyncSerial() emit async listeners one by one', async () => {
     const emitter = new AsyncEventEmitter();
     const t: number[] = [];
-    const listener = async () => {
-      return new Promise<void>(resolve => {
+    const listener = async () =>
+      new Promise<void>(resolve => {
         t.push(Date.now());
         setTimeout(resolve, 50);
       });
-    }
     emitter.on('event1', listener);
     emitter.on('event1', listener);
     emitter.on('event1', listener);
@@ -35,5 +32,4 @@ describe("AsyncEventEmitter", function () {
     expect(t[1] - t[0]).toBeGreaterThanOrEqual(50);
     expect(t[2] - t[1]).toBeGreaterThanOrEqual(50);
   });
-
 });
