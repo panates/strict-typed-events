@@ -1,7 +1,7 @@
 {
   "name": "strict-typed-events",
   "description": "Type safe and promise supported replacement for node's EventEmitter",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "author": "Panates",
   "license": "MIT",
   "dependencies": {
